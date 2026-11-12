@@ -123,11 +123,11 @@
   .chip--2 { top: 19%; left: -7%; rotate: 3deg; }
   .chip--3 { bottom: 2%; right: 8%; rotate: -2deg; }
   @media (max-width: 899px) {
-    .hero-art { width: min(100%, 440px); }
-    .chip { font-size: .82rem; padding: .45rem .8rem; }
-    .chip--1 { left: 2%; }
-    .chip--2 { left: 6%; top: 20%; }
-    .chip--3 { right: 2%; }
+    /* no celular os selos ficam em fila acima do cachorro, sem cobrir a logo */
+    .hero-art { width: min(100%, 440px); aspect-ratio: auto; display: flex; flex-wrap: wrap; gap: .7rem .6rem; justify-self: start; }
+    .hero-art .big-dog { position: relative; inset: auto; order: 2; width: 100%; margin-top: .8rem; }
+    .chip { position: static; font-size: .85rem; padding: .45rem .8rem; }
+    .chip--1 { rotate: -2deg; } .chip--2 { rotate: 1.5deg; } .chip--3 { rotate: -1deg; }
   }
   .wave { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: clamp(28px, 4vw, 54px); color: var(--yellow); }
 
