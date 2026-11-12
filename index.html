@@ -140,7 +140,7 @@
 
   .stage { background: var(--paper); border: 2px solid var(--ink); border-radius: 30px; box-shadow: 0 8px 0 var(--ink); padding: clamp(1.1rem, 3vw, 2.25rem); }
   .stage-grid { display: grid; gap: 1.75rem; }
-  @media (min-width: 1000px) { .stage-grid { grid-template-columns: 17rem minmax(0, 1fr) 15rem; align-items: stretch; } }
+  @media (min-width: 1000px) { .stage-grid { grid-template-columns: 17rem minmax(0, 1fr); align-items: center; } }
   .stage-grid > * { min-width: 0; }
 
   .info { display: flex; flex-direction: column; gap: 1rem; }
@@ -161,34 +161,36 @@
   .arrow:hover { background: var(--yellow); transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
   .arrow:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
 
-  /* Cartão central: navegador com a página inteira rolando ao passar o mouse */
-  .screen-card { background: var(--yellow); border: 2px solid var(--ink); border-radius: var(--radius); padding: clamp(.9rem, 2.4vw, 1.6rem); display: flex; flex-direction: column; justify-content: center; position: relative; }
-  .browser { display: flex; flex-direction: column; flex: 1; background: #fff; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 0 6px 0 var(--ink); }
+  /* Composição: navegador + leque de 3 celulares */
+  .combo { position: relative; background: var(--yellow); border: 2px solid var(--ink); border-radius: var(--radius); padding: clamp(1rem, 2.4vw, 1.75rem); padding-right: 31%; padding-bottom: 4rem; }
+  .browser { background: #fff; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 0 6px 0 var(--ink); }
   .browser-bar { display: flex; align-items: center; gap: .4rem; padding: .55rem .75rem; border-bottom: 2px solid var(--ink); background: var(--paper); }
   .browser-bar i { width: .65rem; height: .65rem; border-radius: 50%; border: 1.5px solid var(--ink); }
   .browser-bar i:nth-child(1) { background: #FF8A65; } .browser-bar i:nth-child(2) { background: var(--yellow); } .browser-bar i:nth-child(3) { background: #8BD3A0; }
   .browser-bar span { margin-left: .5rem; font-size: .78rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: #fff; border: 1.5px solid #D9D0E6; border-radius: 99px; padding: .1rem .7rem; flex: 1; }
-  .viewport { flex: 1; min-height: 20rem; aspect-ratio: 16 / 10; overflow: hidden; container-type: size; position: relative; }
+  .viewport { aspect-ratio: 16 / 10.5; overflow: hidden; container-type: size; position: relative; }
   .viewport img { width: 100%; height: auto; }
-  .scroll-hint { position: absolute; right: 1.1rem; bottom: 1.1rem; display: inline-flex; align-items: center; gap: .4rem; background: var(--ink); color: #fff; font-size: .8rem; padding: .35rem .75rem; border-radius: 99px; pointer-events: none; transition: opacity .3s; }
+  .scroll-hint { position: absolute; left: clamp(1rem, 2.4vw, 1.75rem); bottom: 1.1rem; display: inline-flex; align-items: center; gap: .4rem; background: var(--ink); color: #fff; font-size: .8rem; padding: .35rem .75rem; border-radius: 99px; pointer-events: none; transition: opacity .3s; }
 
-  /* Cartão do celular */
-  .phone-card { background: var(--purple-2); border: 2px solid var(--ink); border-radius: var(--radius); padding: 1.1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; color: #fff; }
-  .phone { width: 100%; aspect-ratio: 390 / 844; border: 3px solid var(--ink); border-radius: 26px; overflow: hidden; background: #000; box-shadow: 0 6px 0 var(--ink); position: relative; }
-  .phone::before { content: ""; position: absolute; top: 6px; left: 50%; translate: -50% 0; width: 34%; height: 9px; border-radius: 99px; background: var(--ink); z-index: 1; }
-  .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-  .phone-card p { font: 700 1.05rem/1.15 var(--f-display); text-align: center; }
-  @media (max-width: 999px) {
-    .stage-grid { grid-template-columns: minmax(0, 1fr); }
-    .phones-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
+  /* Aparelho: moldura fina, ilha no topo e botão lateral */
+  .fan { position: absolute; right: 7%; bottom: 1.25rem; width: 40%; aspect-ratio: 1 / 1.12; }
+  .device {
+    position: absolute; bottom: 0; left: 50%; width: 47%; padding: 2.4%;
+    background: #120822; border-radius: 15% / 7%;
+    box-shadow: inset 0 0 0 1.5px #3E2C60, 0 22px 34px -18px rgba(18, 8, 34, .7);
+    translate: -50% 0; transform-origin: 50% 100%;
+    transition: translate .6s cubic-bezier(.2,.7,.2,1), rotate .6s cubic-bezier(.2,.7,.2,1);
   }
-  @media (min-width: 1000px) { .phones-row { display: contents; } .viewport { aspect-ratio: auto; } }
-  @media (max-width: 999px) and (min-width: 640px) { .phones-row { grid-template-columns: 1.6fr 1fr; } }
-  @media (max-width: 639px) {
-    .phones-row { grid-template-columns: minmax(0, 1fr); }
-    .screen-card { display: none; }
-    .phone { width: min(70%, 15rem); }
-  }
+  .device img { display: block; width: 100%; height: auto; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; border-radius: 12.5% / 5.8%; background: #fff; }
+  .device::after { content: ""; position: absolute; top: 3.9%; left: 50%; translate: -50% 0; width: 27%; height: 2.5%; border-radius: 99px; background: #120822; }
+  .device::before { content: ""; position: absolute; right: -1.8%; top: 21%; width: 1.8%; height: 9%; border-radius: 0 3px 3px 0; background: #2A1B45; }
+  .device--1 { z-index: 3; }
+  .device--2 { z-index: 2; translate: calc(-50% - 46%) -3%; rotate: -8deg; }
+  .device--3 { z-index: 1; translate: calc(-50% + 46%) -3%; rotate: 8deg; }
+  .combo:hover .device--2 { translate: calc(-50% - 60%) -5%; rotate: -11deg; }
+  .combo:hover .device--3 { translate: calc(-50% + 56%) -5%; rotate: 11deg; }
+
+  @media (max-width: 999px) { .stage-grid { grid-template-columns: minmax(0, 1fr); } }
 
   /* Miniaturas (abas) */
   .thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin-top: 1.75rem; }
@@ -210,11 +212,13 @@
     .m-dots { display: flex; justify-content: center; }
   }
   .m-card { position: relative; flex: 0 0 86%; scroll-snap-align: center; background: var(--paper); border: 2px solid var(--ink); border-radius: 24px; box-shadow: 0 6px 0 var(--ink); padding: .75rem; display: flex; flex-direction: column; }
-  .m-shot { position: relative; height: 24rem; background: var(--purple-2); border-radius: 16px; border: 2px solid var(--ink); overflow: hidden; display: flex; justify-content: center; padding-top: 1.1rem; }
-  .m-shot .num { position: absolute; left: .7rem; top: .6rem; font: 800 .95rem/1 var(--f-display); color: var(--yellow); }
-  .m-phone { width: 74%; height: calc(100% + 30px); border: 4px solid var(--ink); border-bottom: 0; border-radius: 26px 26px 0 0; overflow: hidden; background: #fff; position: relative; container-type: size; }
-  .m-phone::before { content: ""; position: absolute; top: 6px; left: 50%; translate: -50% 0; width: 32%; height: 8px; border-radius: 99px; background: var(--ink); z-index: 1; }
-  .m-phone img { width: 100%; height: auto; }
+  .m-shot { position: relative; height: 22rem; background: var(--purple-2); border-radius: 16px; border: 2px solid var(--ink); overflow: hidden; }
+  .m-shot .fan { left: 50%; right: auto; bottom: 1rem; width: 94%; translate: -50% 0; }
+  .m-card.is-current .device--2 { translate: calc(-50% - 40%) -2%; rotate: -7deg; }
+  .m-card.is-current .device--3 { translate: calc(-50% + 40%) -2%; rotate: 7deg; }
+  .m-card:not(.is-current) .device--2 { translate: calc(-50% - 30%) -1%; rotate: -4deg; }
+  .m-card:not(.is-current) .device--3 { translate: calc(-50% + 30%) -1%; rotate: 4deg; }
+  .m-shot .num { position: absolute; z-index: 4; left: .8rem; top: .7rem; font: 800 .95rem/1 var(--f-display); color: var(--yellow); }
   .m-body { padding: 1rem .35rem .3rem; display: grid; gap: .55rem; }
   .m-body .niche { justify-self: start; font-size: .82rem; font-weight: 600; background: var(--lilac); color: var(--purple); padding: .25rem .65rem; border-radius: 99px; }
   .m-body h3 { font-size: 1.6rem; font-weight: 800; letter-spacing: -.03em; }
@@ -344,12 +348,10 @@
 
     /* rolagem da página dentro do navegador */
     .viewport img { transition: transform 9s cubic-bezier(.45,0,.35,1); }
-    .screen-card:hover .viewport img, .screen-card:focus-within .viewport img { transform: translateY(calc(-100% + 100cqh)); transition-duration: 9s; }
-    .screen-card:not(:hover):not(:focus-within) .viewport img { transition-duration: 1.2s; }
-    .screen-card:hover .scroll-hint { opacity: 0; }
+    .browser:hover .viewport img { transform: translateY(calc(-100% + 100cqh)); transition-duration: 9s; }
+    .browser:not(:hover) .viewport img { transition-duration: 1.2s; }
+    .combo:has(.browser:hover) .scroll-hint { opacity: 0; }
 
-    .m-card.is-current .m-phone img { animation: m-scroll 16s cubic-bezier(.45,0,.35,1) .6s infinite alternate; }
-    @keyframes m-scroll { 0%, 8% { transform: none; } 92%, 100% { transform: translateY(calc(-100% + 100cqh)); } }
 
     .js [data-reveal] {
       opacity: 0; translate: 0 28px;
@@ -360,7 +362,7 @@
     }
     .js [data-reveal].is-in { opacity: 1; translate: none; }
   }
-  @media (prefers-reduced-motion: reduce) { .scroll-hint { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .scroll-hint { display: none; } .device { transition: none; } }
 </style>
 </head>
 <body>
@@ -446,18 +448,17 @@
             </div>
           </div>
 
-          <div class="phones-row">
-            <div class="screen-card swap">
-              <div class="browser">
-                <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span id="w-url"></span></div>
-                <div class="viewport"><img id="w-long" src="" alt="" width="720" height="3643" loading="lazy"></div>
-              </div>
-              <span class="scroll-hint" aria-hidden="true"><svg class="ico"><use href="#desk"/></svg>Passe o mouse para rolar</span>
+          <div class="combo swap">
+            <div class="browser">
+              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span id="w-url"></span></div>
+              <div class="viewport"><img id="w-long" src="" alt="" width="1100" height="5217" loading="lazy"></div>
             </div>
-            <div class="phone-card swap">
-              <div class="phone"><img id="w-mob" src="" alt="" width="390" height="844" loading="lazy"></div>
-              <p>No celular</p>
+            <div class="fan">
+              <div class="device device--2"><img id="w-p2" src="" alt="" width="780" height="1688" loading="lazy"></div>
+              <div class="device device--3"><img id="w-p3" src="" alt="" width="780" height="1688" loading="lazy"></div>
+              <div class="device device--1"><img id="w-p1" src="" alt="" width="780" height="1688" loading="lazy"></div>
             </div>
+            <span class="scroll-hint" aria-hidden="true"><svg class="ico"><use href="#desk"/></svg>Passe o mouse na tela para rolar</span>
           </div>
         </div>
       </div>
@@ -581,19 +582,19 @@
     1: { name: 'Estética Talita Brito', short: 'Talita Brito', niche: 'Estética', city: 'Campinas, SP',
          url: 'https://talita-brito-estetica.vercel.app', img: 'talita',
          desc: 'Limpeza de pele e drenagem gestacional. Os tratamentos ganharam um menu com filtros e detalhes de cada procedimento.',
-         tags: ['Menu de tratamentos', 'Avaliações do Google', 'Mapa e horários'] },
+         tags: ['Menu de tratamentos', 'Avaliações do Google', 'Mapa e horários'], shots: ['início', 'menu de tratamentos', 'avaliações'] },
     2: { name: 'Mayara Manso Nutri', short: 'Mayara Manso', niche: 'Nutrição', city: 'Campinas, SP e online',
          url: 'https://mayaramansonutri.vercel.app', img: 'mayara',
          desc: 'Nutricionista focada em emagrecimento feminino. A foto ganhou o formato do morango da logo, e os planos de acompanhamento ficaram fáceis de comparar.',
-         tags: ['Planos de acompanhamento', 'Presencial e online', 'Perguntas frequentes'] },
+         tags: ['Planos de acompanhamento', 'Presencial e online', 'Perguntas frequentes'], shots: ['início', 'planos', 'avaliações'] },
     3: { name: 'Juliana Fredericci Estética', short: 'Juliana Fredericci', niche: 'Estética', city: 'Campinas, SP',
          url: 'https://julianafredericciestetica.vercel.app', img: 'juliana',
          desc: 'Harmonização facial, pele, corpo e depilação a laser. Os tratamentos ficaram organizados por categoria, cada um com detalhes e botão de agendamento.',
-         tags: ['Tratamentos por categoria', 'Agendamento por serviço', 'Avaliações'] },
+         tags: ['Tratamentos por categoria', 'Agendamento por serviço', 'Avaliações'], shots: ['início', 'tratamentos', 'avaliações'] },
     4: { name: 'Espaço Reviver', short: 'Espaço Reviver', niche: 'Fisioterapia e Pilates', city: 'Campinas, SP',
          url: 'https://espacoreviver.vercel.app', img: 'reviver',
          desc: 'Fisioterapia e Pilates clínico. As fotos se abrem em leque sobre um arco de goniômetro, o instrumento que mede o movimento.',
-         tags: ['Tratamentos', 'Wellhub e TotalPass', 'Mapa e horários'] }
+         tags: ['Tratamentos', 'Wellhub e TotalPass', 'Mapa e horários'], shots: ['início', 'tratamentos', 'avaliações'] }
   };
 
   // Máscaras: ?m=1 ... ?m=4 no link
@@ -638,9 +639,9 @@
     $('w-tags').innerHTML = p.tags.map(t => `<li>${t}</li>`).join('');
     $('w-url').textContent = p.url.replace('https://', '');
     $('w-open').href = p.url;
-    const long = $('w-long'), mob = $('w-mob');
+    const long = $('w-long');
     long.src = `fotos/${p.img}-long.jpg`; long.alt = `Página de ${p.name} no computador`;
-    mob.src = `fotos/${p.img}-mob.jpg`; mob.alt = `Página de ${p.name} no celular`;
+    [1, 2, 3].forEach(k => { const im = $('w-p' + k); im.src = `fotos/${p.img}-p${k}.jpg`; im.alt = `${p.name} no celular: ${p.shots[k - 1]}`; });
     [...dotsEl.children].forEach((d, k) => d.classList.toggle('on', k === i));
     tabs.forEach((t, k) => { t.setAttribute('aria-selected', k === i); t.tabIndex = k === i ? 0 : -1; });
     $('work-panel').setAttribute('aria-labelledby', 'tab-' + i);
@@ -654,7 +655,7 @@
   };
   fill(0);
   // pré-carrega as imagens dos outros projetos
-  addEventListener('load', () => list.forEach(p => { new Image().src = `fotos/${p.img}-long.jpg`; new Image().src = `fotos/${p.img}-mob.jpg`; }));
+  addEventListener('load', () => list.forEach(p => { new Image().src = `fotos/${p.img}-long.jpg`; [1, 2, 3].forEach(k => { new Image().src = `fotos/${p.img}-p${k}.jpg`; }); }));
   $('w-prev').addEventListener('click', () => show((cur - 1 + list.length) % list.length, true));
   $('w-next').addEventListener('click', () => show((cur + 1) % list.length, true));
 
@@ -664,7 +665,7 @@
     const c = document.createElement('article');
     c.className = 'm-card';
     c.setAttribute('aria-label', `${pad(i + 1)} de ${pad(list.length)}: ${p.name}`);
-    c.innerHTML = `<div class="m-shot"><span class="num" aria-hidden="true">${pad(i + 1)}/${pad(list.length)}</span><div class="m-phone"><img src="fotos/${p.img}-mob-long.jpg" alt="Página de ${p.name} no celular" width="375" height="4200" loading="lazy"></div></div>
+    c.innerHTML = `<div class="m-shot"><span class="num" aria-hidden="true">${pad(i + 1)}/${pad(list.length)}</span><div class="fan">${[2, 3, 1].map(k => `<div class="device device--${k}"><img src="fotos/${p.img}-p${k}.jpg" alt="${p.name} no celular: ${p.shots[k - 1]}" width="780" height="1688" loading="lazy"></div>`).join('')}</div></div>
       <div class="m-body"><span class="niche">${p.niche}</span><h3>${p.name}</h3>
       <p class="city"><svg class="ico" aria-hidden="true"><use href="#pin"/></svg>${p.city}</p><p class="desc">${p.desc}</p>
       <a class="btn btn--purple" href="${p.url}" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#ext"/></svg>Ver o site<span class="sr-only"> (abre em nova aba)</span></a></div>`;
