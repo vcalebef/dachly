@@ -181,8 +181,8 @@
     translate: -50% 0; transform-origin: 50% 100%;
     transition: translate .6s cubic-bezier(.2,.7,.2,1), rotate .6s cubic-bezier(.2,.7,.2,1);
   }
-  .device img { display: block; width: 100%; height: auto; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; border-radius: 12.5% / 5.8%; background: #fff; }
-  .device::after { content: ""; position: absolute; top: 3.9%; left: 50%; translate: -50% 0; width: 27%; height: 2.5%; border-radius: 99px; background: #120822; }
+  .device img { display: block; width: 100%; height: auto; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; border-radius: 12.5% / 5.8%; background: #fff; padding-top: 12%; } /* faixa da barra de status: o site começa abaixo da câmera */
+  .device::after { content: ""; position: absolute; top: 2.9%; left: 50%; translate: -50% 0; width: 27%; height: 2.3%; border-radius: 99px; background: #120822; }
   .device::before { content: ""; position: absolute; right: -1.8%; top: 21%; width: 1.8%; height: 9%; border-radius: 0 3px 3px 0; background: #2A1B45; }
   .device--1 { z-index: 3; }
   .device--2 { z-index: 2; translate: calc(-50% - 46%) -3%; rotate: -8deg; }
@@ -582,17 +582,17 @@
     1: { name: 'Estética Talita Brito', short: 'Talita Brito', niche: 'Estética', city: 'Campinas, SP',
          url: 'https://talita-brito-estetica.vercel.app', img: 'talita',
          desc: 'Limpeza de pele e drenagem gestacional. Os tratamentos ganharam um menu com filtros e detalhes de cada procedimento.',
-         tags: ['Menu de tratamentos', 'Avaliações do Google', 'Mapa e horários'], shots: ['início', 'menu de tratamentos', 'avaliações'] },
+         tags: ['Menu de tratamentos', 'Avaliações do Google', 'Mapa e horários'], shots: ['início', 'menu de tratamentos', 'avaliações'], bars: ['#FBEFF1', '#FBEBEE', '#EDCBD6'] },
     2: { name: 'Mayara Manso Nutri', short: 'Mayara Manso', niche: 'Nutrição', city: 'Campinas, SP e online',
          url: 'https://mayaramansonutri.vercel.app', img: 'mayara',
          desc: 'Nutricionista focada em emagrecimento feminino. A foto ganhou o formato do morango da logo, e os planos de acompanhamento ficaram fáceis de comparar.',
-         tags: ['Planos de acompanhamento', 'Presencial e online', 'Perguntas frequentes'], shots: ['início', 'planos', 'avaliações'] },
+         tags: ['Planos de acompanhamento', 'Presencial e online', 'Perguntas frequentes'], shots: ['início', 'planos', 'avaliações'], bars: ['#3B2F2A', '#4B3C37', '#4C403A'] },
     3: { name: 'Juliana Fredericci Estética', short: 'Juliana Fredericci', niche: 'Estética', city: 'Campinas, SP',
-         url: 'https://julianafredericciestetica.vercel.app', img: 'juliana',
+         url: 'https://julianafredericciestetica.vercel.app', img: 'juliana', bars: ['#F6F3F8', '#F4F3F7', '#DEE4E4'],
          desc: 'Harmonização facial, pele, corpo e depilação a laser. Os tratamentos ficaram organizados por categoria, cada um com detalhes e botão de agendamento.',
          tags: ['Tratamentos por categoria', 'Agendamento por serviço', 'Avaliações'], shots: ['início', 'tratamentos', 'avaliações'] },
     4: { name: 'Espaço Reviver', short: 'Espaço Reviver', niche: 'Fisioterapia e Pilates', city: 'Campinas, SP',
-         url: 'https://espacoreviver.vercel.app', img: 'reviver',
+         url: 'https://espacoreviver.vercel.app', img: 'reviver', bars: ['#24473C', '#F0F4F1', '#EDF2EE'],
          desc: 'Fisioterapia e Pilates clínico. As fotos se abrem em leque sobre um arco de goniômetro, o instrumento que mede o movimento.',
          tags: ['Tratamentos', 'Wellhub e TotalPass', 'Mapa e horários'], shots: ['início', 'tratamentos', 'avaliações'] }
   };
@@ -641,7 +641,7 @@
     $('w-open').href = p.url;
     const long = $('w-long');
     long.src = `fotos/${p.img}-long.jpg`; long.alt = `Página de ${p.name} no computador`;
-    [1, 2, 3].forEach(k => { const im = $('w-p' + k); im.src = `fotos/${p.img}-p${k}.jpg`; im.alt = `${p.name} no celular: ${p.shots[k - 1]}`; });
+    [1, 2, 3].forEach(k => { const im = $('w-p' + k); im.src = `fotos/${p.img}-p${k}.jpg`; im.alt = `${p.name} no celular: ${p.shots[k - 1]}`; im.style.backgroundColor = p.bars[k - 1]; });
     [...dotsEl.children].forEach((d, k) => d.classList.toggle('on', k === i));
     tabs.forEach((t, k) => { t.setAttribute('aria-selected', k === i); t.tabIndex = k === i ? 0 : -1; });
     $('work-panel').setAttribute('aria-labelledby', 'tab-' + i);
@@ -665,7 +665,7 @@
     const c = document.createElement('article');
     c.className = 'm-card';
     c.setAttribute('aria-label', `${pad(i + 1)} de ${pad(list.length)}: ${p.name}`);
-    c.innerHTML = `<div class="m-shot"><span class="num" aria-hidden="true">${pad(i + 1)}/${pad(list.length)}</span><div class="fan">${[2, 3, 1].map(k => `<div class="device device--${k}"><img src="fotos/${p.img}-p${k}.jpg" alt="${p.name} no celular: ${p.shots[k - 1]}" width="780" height="1688" loading="lazy"></div>`).join('')}</div></div>
+    c.innerHTML = `<div class="m-shot"><span class="num" aria-hidden="true">${pad(i + 1)}/${pad(list.length)}</span><div class="fan">${[2, 3, 1].map(k => `<div class="device device--${k}"><img src="fotos/${p.img}-p${k}.jpg" style="background-color:${p.bars[k - 1]}" alt="${p.name} no celular: ${p.shots[k - 1]}" width="780" height="1688" loading="lazy"></div>`).join('')}</div></div>
       <div class="m-body"><span class="niche">${p.niche}</span><h3>${p.name}</h3>
       <p class="city"><svg class="ico" aria-hidden="true"><use href="#pin"/></svg>${p.city}</p><p class="desc">${p.desc}</p>
       <a class="btn btn--purple" href="${p.url}" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#ext"/></svg>Ver o site<span class="sr-only"> (abre em nova aba)</span></a></div>`;
