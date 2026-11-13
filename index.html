@@ -204,12 +204,13 @@
   @media (max-width: 560px) { .thumb span em { display: none; } }
 
   /* Vitrine no celular: cartões deslizáveis com a página rolando no aparelho */
-  .m-cards, .m-dots { display: none; }
+  .m-cards, .m-nav { display: none; }
   @media (max-width: 639px) {
     .stage, .thumbs { display: none; }
     .m-cards { display: flex; gap: .9rem; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -1.25rem; padding: .25rem 1.25rem 1.25rem; scrollbar-width: none; overscroll-behavior-x: contain; }
     .m-cards::-webkit-scrollbar { display: none; }
-    .m-dots { display: flex; justify-content: center; }
+    .m-nav { display: flex; justify-content: center; align-items: center; gap: .25rem; }
+    .m-dots { display: flex; }
   }
   .m-card { position: relative; flex: 0 0 86%; scroll-snap-align: center; background: var(--paper); border: 2px solid var(--ink); border-radius: 24px; box-shadow: 0 6px 0 var(--ink); padding: .75rem; display: flex; flex-direction: column; }
   .m-shot { position: relative; height: 22rem; background: var(--purple-2); border-radius: 16px; border: 2px solid var(--ink); overflow: hidden; }
@@ -227,7 +228,17 @@
   .m-body .btn { margin-top: .4rem; width: 100%; }
   .m-dots button { all: unset; cursor: pointer; width: 2.75rem; height: 2.75rem; display: grid; place-items: center; }
   .m-dots button::before { content: ""; width: .55rem; height: .55rem; border-radius: 99px; background: color-mix(in srgb, var(--ink) 35%, transparent); transition: width .3s, background-color .3s; }
-  .m-dots button[aria-current="true"]::before { width: 1.5rem; background: var(--ink); }
+  .m-dots button[aria-current="true"]::before { width: 1.9rem; background: var(--ink); }
+  /* passagem automática: a bolinha ativa enche como barra de progresso */
+  .m-nav.is-playing .m-dots button[aria-current="true"]::before {
+    background: linear-gradient(var(--ink), var(--ink)) left / 0% 100% no-repeat, color-mix(in srgb, var(--ink) 35%, transparent);
+    animation: m-progress var(--m-delay, 5s) linear forwards;
+  }
+  @keyframes m-progress { to { background-size: 100% 100%, auto; } }
+  .m-play { all: unset; cursor: pointer; width: 2.4rem; height: 2.4rem; margin-left: .35rem; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); display: grid; place-items: center; box-shadow: 0 3px 0 var(--ink); }
+  .m-play .ico { width: 1rem; height: 1rem; }
+  .m-play:active { translate: 0 2px; box-shadow: 0 1px 0 var(--ink); }
+  .m-play:focus-visible { outline: 3px solid var(--purple); outline-offset: 3px; }
   .m-dots button:focus-visible { outline: 3px solid var(--purple); outline-offset: -6px; border-radius: 12px; }
 
   .only-mob { display: none; }
@@ -380,6 +391,8 @@
   <symbol id="chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 5.5h16v10H10l-4 3.5v-3.5H4z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M8 9.5h8M8 12.5h5"/></symbol>
   <symbol id="brush" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M14.5 4.5l5 5-7.5 7.5-5-5zM7 12l-2.5 2.5c-1 1-1 3.5-1 6 2.5 0 5 0 6-1L12 17"/></symbol>
   <symbol id="rocket" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 15l-3-3c1.5-5 5-8.5 11-8.5 0 6-3.5 9.5-8 11.5zM9 12H5l2.5-3.5H11M12 15v4l3.5-2.5V13"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M6.5 17.5L4 20"/></symbol>
+  <symbol id="pause" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M9 6.5v11M15 6.5v11"/></symbol>
+  <symbol id="play" viewBox="0 0 24 24"><path fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M8.5 6.2v11.6L18 12z"/></symbol>
   <symbol id="check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
 </svg>
 
@@ -465,7 +478,10 @@
 
       <div class="thumbs" role="tablist" aria-label="Escolha um projeto" id="w-tabs"></div>
       <div class="m-cards" id="m-cards" aria-label="Projetos"></div>
-      <div class="m-dots" id="m-dots"></div>
+      <div class="m-nav" id="m-nav">
+        <div class="m-dots" id="m-dots"></div>
+        <button class="m-play" id="m-play" type="button" aria-label="Pausar a passagem automática"><svg class="ico" aria-hidden="true"><use href="#pause"/></svg></button>
+      </div>
       <noscript><p style="margin-top:1rem">Veja os projetos: <a href="https://talita-brito-estetica.vercel.app">Estética Talita Brito</a>, <a href="https://mayaramansonutri.vercel.app">Mayara Manso Nutri</a>, <a href="https://julianafredericciestetica.vercel.app">Juliana Fredericci Estética</a>, <a href="https://espacoreviver.vercel.app">Espaço Reviver</a>.</p></noscript>
     </div>
   </section>
@@ -672,17 +688,53 @@
     mCards.append(c);
     const d = document.createElement('button');
     d.type = 'button'; d.setAttribute('aria-label', `Ver projeto ${i + 1}: ${p.name}`);
-    d.addEventListener('click', () => mCards.scrollTo({ left: c.offsetLeft - mCards.offsetLeft - (mCards.clientWidth - c.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' }));
+    d.addEventListener('click', () => { goTo(i); restart(); });
     mDots.append(d);
   });
   const mList = [...mCards.children], dList = [...mDots.children];
+  let mCur = 0;
+  function goTo(i) {
+    const c = mList[i];
+    mCards.scrollTo({ left: c.offsetLeft - mCards.offsetLeft - (mCards.clientWidth - c.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+  }
   const setCurrent = i => {
+    mCur = i;
     mList.forEach((c, k) => c.classList.toggle('is-current', k === i));
     dList.forEach((d, k) => d.setAttribute('aria-current', k === i));
   };
   setCurrent(0);
   const mio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) setCurrent(mList.indexOf(e.target)); }), { root: mCards, threshold: 0.6 });
   mList.forEach(c => mio.observe(c));
+
+  // Passagem automática dos cartões (só no celular). Para quando a pessoa toca, quando o
+  // carrossel sai da tela, quando a aba fica oculta ou quando o foco está num cartão.
+  const DELAY = 5000;
+  const mNav = $('m-nav'), mPlay = $('m-play'), small = matchMedia('(max-width: 639px)');
+  mNav.style.setProperty('--m-delay', DELAY + 'ms');
+  let playing = !reduce, inView = false, focused = false, timer = null;
+  function restart() {
+    clearInterval(timer); timer = null;
+    const run = playing && inView && !focused && !document.hidden && small.matches && mList.length > 1;
+    mNav.classList.toggle('is-playing', run);
+    // reinicia a barra de progresso da bolinha ativa
+    const d = dList[mCur]; d.setAttribute('aria-current', 'false'); void d.offsetWidth; d.setAttribute('aria-current', 'true');
+    if (run) timer = setInterval(() => goTo((mCur + 1) % mList.length), DELAY);
+  }
+  const setPlaying = v => {
+    playing = v;
+    mPlay.setAttribute('aria-label', v ? 'Pausar a passagem automática' : 'Retomar a passagem automática');
+    mPlay.querySelector('use').setAttribute('href', v ? '#pause' : '#play');
+    restart();
+  };
+  setPlaying(playing);
+  mPlay.addEventListener('click', () => setPlaying(!playing));
+  ['pointerdown', 'wheel'].forEach(ev => mCards.addEventListener(ev, restart, { passive: true }));
+  mCards.addEventListener('scrollend', () => { if (!timer) return; restart(); });
+  mCards.addEventListener('focusin', () => { focused = true; restart(); });
+  mCards.addEventListener('focusout', () => { focused = false; restart(); });
+  new IntersectionObserver(([e]) => { inView = e.isIntersecting; restart(); }, { threshold: 0.4 }).observe(mCards);
+  document.addEventListener('visibilitychange', restart);
+  small.addEventListener('change', restart);
 
   // ===== Prévia ao vivo =====
   const dlg = $('live'), frame = dlg.querySelector('iframe');
