@@ -438,8 +438,8 @@
     <div class="wrap">
       <div class="work-head">
         <h2 id="work-title">Páginas que já estão no ar</h2>
-        <p class="only-desk">Passe o mouse sobre a tela para ver a página inteira rolar, ou abra a prévia ao vivo e navegue como o cliente do seu cliente navegaria.</p>
-        <p class="only-mob">Deslize para o lado para ver os outros projetos. Cada aparelho mostra a página rolando, do jeito que o seu cliente vai ver.</p>
+        <p class="only-desk" id="w-sub-desk">Passe o mouse sobre a tela para ver a página inteira rolar, ou abra a prévia ao vivo e navegue como o cliente do seu cliente navegaria.</p>
+        <p class="only-mob" id="w-sub-mob">Deslize para o lado para ver os outros projetos. Cada aparelho mostra a página rolando, do jeito que o seu cliente vai ver.</p>
       </div>
 
       <div class="stage" id="stage">
@@ -482,7 +482,7 @@
         <div class="m-dots" id="m-dots"></div>
         <button class="m-play" id="m-play" type="button" aria-label="Pausar a passagem automática"><svg class="ico" aria-hidden="true"><use href="#pause"/></svg></button>
       </div>
-      <noscript><p style="margin-top:1rem">Veja os projetos: <a href="https://talita-brito-estetica.vercel.app">Estética Talita Brito</a>, <a href="https://mayaramansonutri.vercel.app">Mayara Manso Nutri</a>, <a href="https://julianafredericciestetica.vercel.app">Juliana Fredericci Estética</a>, <a href="https://espacoreviver.vercel.app">Espaço Reviver</a>.</p></noscript>
+      <noscript><p style="margin-top:1rem">Ative o JavaScript para ver os exemplos de páginas.</p></noscript>
     </div>
   </section>
 
@@ -610,18 +610,40 @@
     4: { name: 'Espaço Reviver', short: 'Espaço Reviver', niche: 'Fisioterapia e Pilates', city: 'Campinas, SP',
          url: 'https://espacoreviver.vercel.app', img: 'reviver', bars: ['#24473C', '#EFF4F0', '#EDF2EE'],
          desc: 'Fisioterapia e Pilates clínico. As fotos se abrem em leque sobre um arco de goniômetro, o instrumento que mede o movimento.',
-         tags: ['Tratamentos', 'Wellhub e TotalPass', 'Mapa e horários'], shots: ['início', 'tratamentos', 'avaliações'] }
+         tags: ['Tratamentos', 'Wellhub e TotalPass', 'Mapa e horários'], shots: ['início', 'tratamentos', 'avaliações'] },
+    // Projetos demonstrativos: negócios fictícios, sem site no ar. O botão leva para o WhatsApp.
+    5: { name: 'Alva Estética', short: 'Alva Estética', niche: 'Estética', demo: 'clínica de estética', host: 'alva-estetica.exemplo', city: 'Negócio fictício, Campinas, SP',
+         img: 'estetica', bars: ['#23313A', '#374147', '#364148'],
+         desc: 'Clínica de estética facial e corporal. A foto da esteticista ganhou uma moldura em arco, e os pacotes aparecem lado a lado, com preço e número de sessões.',
+         tags: ['Pacotes com preço', 'Sobre a profissional', 'Avaliações'], shots: ['início', 'pacotes', 'avaliações'] },
+    6: { name: 'Aroeira Vet', short: 'Aroeira Vet', niche: 'Veterinária', demo: 'clínica veterinária', host: 'aroeira-vet.exemplo', city: 'Negócio fictício, Campinas, SP',
+         img: 'vet', bars: ['#284A70', '#F0F5F9', '#EEF3F8'],
+         desc: 'Clínica veterinária para cães e gatos. As fotos dos pets se abrem em leque logo no início, e cada serviço tem um botão para agendar.',
+         tags: ['Serviços com agendamento', 'Equipe', 'Perguntas frequentes'], shots: ['início', 'serviços', 'equipe'] },
+    7: { name: 'Lumiar Odontologia', short: 'Lumiar Odontologia', niche: 'Odontologia', demo: 'consultório odontológico', host: 'lumiar-odonto.exemplo', city: 'Negócio fictício, Campinas, SP',
+         img: 'dentista', bars: ['#EEF7F6', '#E5F4F3', '#C3E0DE'],
+         desc: 'Consultório odontológico para quem tem medo de dentista. Os tratamentos ficaram num menu com filtros, e a primeira consulta das crianças ganhou uma seção própria.',
+         tags: ['Menu de tratamentos', 'Consulta infantil', 'Avaliações'], shots: ['início', 'tratamentos', 'avaliações'] }
   };
 
-  // Máscaras: ?m=1 ... ?m=4 no link
+  // Sem parâmetro (link público): só os projetos demonstrativos.
+  // Máscaras: ?m=1 ... ?m=4 mostram 3 dos 4 sites de clientes, para mandar em conversa.
   const MASKS = { 1: [1, 2, 3], 2: [1, 2, 4], 3: [1, 3, 4], 4: [2, 3, 4] };
+  const DEMOS = [5, 6, 7];
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const pad = n => String(n).padStart(2, '0');
   const $ = id => document.getElementById(id);
 
-  const mask = MASKS[new URLSearchParams(location.search).get('m')] || MASKS[1];
+  const mask = MASKS[new URLSearchParams(location.search).get('m')] || DEMOS;
   const list = mask.map(n => PROJECTS[n]);
+  const waDemo = p => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Olá! Vi o exemplo de site para ${p.demo} no dachly e quero um assim para o meu negócio.`)}`;
+  const nicheLabel = p => p.demo ? `${p.niche} · projeto demonstrativo` : p.niche;
+  if (list.every(p => p.demo)) {
+    $('work-title').textContent = 'Exemplos do meu trabalho';
+    $('w-sub-desk').textContent = 'Projetos demonstrativos, com negócios fictícios, para você ver como a sua página pode ficar. Passe o mouse sobre a tela para ver a página inteira rolar.';
+    $('w-sub-mob').textContent = 'Projetos demonstrativos, com negócios fictícios, para você ver como a sua página pode ficar. Deslize para ver os outros.';
+  }
 
   // ===== Vitrine =====
   const stage = $('stage'), tabsEl = $('w-tabs'), dotsEl = $('w-dots');
@@ -648,13 +670,14 @@
   const fill = i => {
     const p = list[i];
     $('w-count').innerHTML = `${pad(i + 1)}<small>/${pad(list.length)}</small>`;
-    $('w-niche').textContent = p.niche;
+    $('w-niche').textContent = nicheLabel(p);
     $('w-name').textContent = p.name;
     $('w-city').textContent = p.city;
     $('w-desc').textContent = p.desc;
     $('w-tags').innerHTML = p.tags.map(t => `<li>${t}</li>`).join('');
-    $('w-url').textContent = p.url.replace('https://', '');
-    $('w-open').href = p.url;
+    $('w-url').textContent = p.demo ? p.host : p.url.replace('https://', '');
+    $('w-open').hidden = !!p.demo; if (!p.demo) $('w-open').href = p.url;
+    $('w-live').innerHTML = p.demo ? '<svg class="ico" aria-hidden="true"><use href="#wa"/></svg>Quero um assim' : '<svg class="ico" aria-hidden="true"><use href="#eye"/></svg>Prévia ao vivo';
     const long = $('w-long');
     long.src = `fotos/${p.img}-long.jpg`; long.alt = `Página de ${p.name} no computador`;
     [1, 2, 3].forEach(k => { const im = $('w-p' + k); im.src = `fotos/${p.img}-p${k}.jpg`; im.alt = `${p.name} no celular: ${p.shots[k - 1]}`; im.style.backgroundColor = p.bars[k - 1]; });
@@ -682,9 +705,9 @@
     c.className = 'm-card';
     c.setAttribute('aria-label', `${pad(i + 1)} de ${pad(list.length)}: ${p.name}`);
     c.innerHTML = `<div class="m-shot"><span class="num" aria-hidden="true">${pad(i + 1)}/${pad(list.length)}</span><div class="fan">${[2, 3, 1].map(k => `<div class="device device--${k}"><img src="fotos/${p.img}-p${k}.jpg" style="background-color:${p.bars[k - 1]}" alt="${p.name} no celular: ${p.shots[k - 1]}" width="780" height="1688" loading="lazy"></div>`).join('')}</div></div>
-      <div class="m-body"><span class="niche">${p.niche}</span><h3>${p.name}</h3>
-      <p class="city"><svg class="ico" aria-hidden="true"><use href="#pin"/></svg>${p.city}</p><p class="desc">${p.desc}</p>
-      <a class="btn btn--purple" href="${p.url}" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#ext"/></svg>Ver o site<span class="sr-only"> (abre em nova aba)</span></a></div>`;
+      <div class="m-body"><span class="niche">${nicheLabel(p)}</span><h3>${p.name}</h3>
+      ${p.city ? `<p class="city"><svg class="ico" aria-hidden="true"><use href="#pin"/></svg>${p.city}</p>` : ''}<p class="desc">${p.desc}</p>
+      ${p.demo ? `<a class="btn btn--purple" href="${waDemo(p)}" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#wa"/></svg>Quero um assim<span class="sr-only"> (abre o WhatsApp)</span></a>` : `<a class="btn btn--purple" href="${p.url}" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#ext"/></svg>Ver o site<span class="sr-only"> (abre em nova aba)</span></a>`}</div>`;
     mCards.append(c);
     const d = document.createElement('button');
     d.type = 'button'; d.setAttribute('aria-label', `Ver projeto ${i + 1}: ${p.name}`);
@@ -743,6 +766,7 @@
   modes.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
   $('w-live').addEventListener('click', () => {
     const p = list[cur];
+    if (p.demo) return void open(waDemo(p), '_blank', 'noopener');
     $('live-title').textContent = p.name;
     $('live-open').href = p.url;
     frame.title = `Prévia do site ${p.name}`;
