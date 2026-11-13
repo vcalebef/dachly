@@ -122,8 +122,8 @@
   .chip--1 { top: 2%; left: 0; rotate: -4deg; }
   .chip--2 { top: 19%; left: -7%; rotate: 3deg; }
   .chip--3 { bottom: 2%; right: 8%; rotate: -2deg; }
-  @media (max-width: 899px) {
-    /* no celular os selos ficam em fila acima do cachorro, sem cobrir a logo */
+  @media (max-width: 1199px) {
+    /* até 1199px os selos ficam em fila acima do cachorro, sem cobrir a logo (com a coluna estreita eles cobriam a cabeça) */
     .hero-art { width: min(100%, 440px); aspect-ratio: auto; display: flex; flex-wrap: wrap; gap: .7rem .6rem; justify-self: start; }
     .hero-art .big-dog { position: relative; inset: auto; order: 2; width: 100%; margin-top: .8rem; }
     .chip { position: static; font-size: .85rem; padding: .45rem .8rem; }
@@ -598,17 +598,17 @@
     1: { name: 'Estética Talita Brito', short: 'Talita Brito', niche: 'Estética', city: 'Campinas, SP',
          url: 'https://talita-brito-estetica.vercel.app', img: 'talita',
          desc: 'Limpeza de pele e drenagem gestacional. Os tratamentos ganharam um menu com filtros e detalhes de cada procedimento.',
-         tags: ['Menu de tratamentos', 'Avaliações do Google', 'Mapa e horários'], shots: ['início', 'menu de tratamentos', 'avaliações'], bars: ['#FBEFF1', '#FBEBEE', '#EDCBD6'] },
+         tags: ['Menu de tratamentos', 'Avaliações do Google', 'Mapa e horários'], shots: ['início', 'menu de tratamentos', 'avaliações'], bars: ['#FBEFF1', '#FAE8EC', '#EDCBD6'] },
     2: { name: 'Mayara Manso Nutri', short: 'Mayara Manso', niche: 'Nutrição', city: 'Campinas, SP e online',
          url: 'https://mayaramansonutri.vercel.app', img: 'mayara',
          desc: 'Nutricionista focada em emagrecimento feminino. A foto ganhou o formato do morango da logo, e os planos de acompanhamento ficaram fáceis de comparar.',
-         tags: ['Planos de acompanhamento', 'Presencial e online', 'Perguntas frequentes'], shots: ['início', 'planos', 'avaliações'], bars: ['#3B2F2A', '#4B3C37', '#4C403A'] },
+         tags: ['Planos de acompanhamento', 'Presencial e online', 'Perguntas frequentes'], shots: ['início', 'planos', 'avaliações'], bars: ['#3B2F2A', '#4B3C38', '#4A3E38'] },
     3: { name: 'Juliana Fredericci Estética', short: 'Juliana Fredericci', niche: 'Estética', city: 'Campinas, SP',
-         url: 'https://julianafredericciestetica.vercel.app', img: 'juliana', bars: ['#F6F3F8', '#F4F3F7', '#DEE4E4'],
+         url: 'https://julianafredericciestetica.vercel.app', img: 'juliana', bars: ['#F6F3F8', '#F2F2F5', '#E3E7E8'],
          desc: 'Harmonização facial, pele, corpo e depilação a laser. Os tratamentos ficaram organizados por categoria, cada um com detalhes e botão de agendamento.',
          tags: ['Tratamentos por categoria', 'Agendamento por serviço', 'Avaliações'], shots: ['início', 'tratamentos', 'avaliações'] },
     4: { name: 'Espaço Reviver', short: 'Espaço Reviver', niche: 'Fisioterapia e Pilates', city: 'Campinas, SP',
-         url: 'https://espacoreviver.vercel.app', img: 'reviver', bars: ['#24473C', '#F0F4F1', '#EDF2EE'],
+         url: 'https://espacoreviver.vercel.app', img: 'reviver', bars: ['#24473C', '#EFF4F0', '#EDF2EE'],
          desc: 'Fisioterapia e Pilates clínico. As fotos se abrem em leque sobre um arco de goniômetro, o instrumento que mede o movimento.',
          tags: ['Tratamentos', 'Wellhub e TotalPass', 'Mapa e horários'], shots: ['início', 'tratamentos', 'avaliações'] }
   };
